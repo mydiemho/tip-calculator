@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/etInputAmount"
+        android:text=""
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
+        android:numeric="decimal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_label_ok_service"
+        android:id="@+id/btnOkService"
+        android:tag="0.05"
+        android:onClick="calculateTip"
+        android:layout_marginTop="67dp"
+        android:layout_below="@+id/etInputAmount"
+        android:layout_alignLeft="@+id/etInputAmount"
+        android:layout_alignStart="@+id/etInputAmount" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_label_good_service"
+        android:id="@+id/btnGoodService"
+        android:tag="0.10"
+        android:onClick="calculateTip"
+        android:layout_alignTop="@+id/btnOkService"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_label_great_service"
+        android:id="@+id/btnGreatService"
+        android:tag="0.15"
+        android:onClick="calculateTip"
+        android:layout_alignTop="@+id/btnOkService"
+        android:layout_alignRight="@+id/etInputAmount"
+        android:layout_alignEnd="@+id/etInputAmount" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tip_label"
+        android:id="@+id/tvTipAmountLabel"
+        android:textSize="20sp"
+        android:layout_marginTop="153dp"
+        android:layout_below="@+id/btnOkService"
+        android:layout_alignLeft="@+id/etInputAmount"
+        android:textIsSelectable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numeric="decimal"
+        android:text=""
+        android:id="@+id/tvTipAmount"
+        android:textSize="20sp"
+        android:layout_alignTop="@+id/tvTipAmountLabel"
+        android:layout_alignLeft="@+id/btnGoodService" />
+
+</RelativeLayout>
