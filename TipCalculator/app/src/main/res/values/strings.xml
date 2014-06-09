@@ -2,9 +2,15 @@
 <resources>
 
     <string name="app_name">TipCalculator</string>
-    <string name="tip_label">Tip:</string>
-    <string name="btn_label_ok_service">5%</string>
-    <string name="btn_label_good_service">10%</string>
-    <string name="btn_label_great_service">15%</string>
+    <string name="tip_label">Total Tip</string>
+    <string name="input_label">Amount</string>
+    <string name="total_label">Total Amount</string>
+    <string name="input_label_hint">Enter a dollar amount</string>
+    <string name="btn_label_ok_service">10%</string>
+    <string name="btn_label_good_service">15%</string>
+    <string name="btn_label_great_service">20%</string>
+    <string name="tag_ok_service">10</string>
+    <string name="tag_good_service">15</string>
+    <string name="tag_great_service">20</string>
 
 </resources>
