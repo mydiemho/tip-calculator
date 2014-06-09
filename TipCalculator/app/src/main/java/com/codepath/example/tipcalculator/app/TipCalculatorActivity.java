@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ public class TipCalculatorActivity extends Activity {
     private Button btnOkService;
     private Button btnGoodService;
     private Button btnGreatService;
+    private Button btnPressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class TipCalculatorActivity extends Activity {
         btnGreatService = (Button) findViewById(R.id.btnGreatService);
 
         setUpButtonClickListener();
+        setUpInputChangedListener();
     }
 
     private void setUpButtonClickListener() {
@@ -64,26 +67,76 @@ public class TipCalculatorActivity extends Activity {
             }
         });
     }
-    
+
+    private void setUpInputChangedListener() {
+        etInputAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateTip();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
     public void calculateTip(View v) {
 
         String strInputAmount = etInputAmount.getText().toString();
+        if (strInputAmount.isEmpty()) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Please enter an amount", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            tvTipAmount.setText("");
+            return;
+        }
+
         double inputAmount;
+        try {
+            inputAmount = Double.parseDouble(etInputAmount.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast toast = Toast.makeText(getApplicationContext(), String.format("Invalid input: %s", etInputAmount.getText().toString()), Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
 
-        if (!strInputAmount.equals("")) {
+        btnPressed = (Button) v;
+        v.setEnabled(false);
+        double percentage = Double.parseDouble(v.getTag().toString());
+        double tipAmount = inputAmount * percentage;
+        tvTipAmount.setText(formatter.format(tipAmount));
+    }
 
-            v.setEnabled(false);
-            try {
-                inputAmount = Double.parseDouble(etInputAmount.getText().toString());
-            } catch (NumberFormatException e) {
-                Toast.makeText(getApplicationContext(), String.format("Invalid input: %s", etInputAmount.getText().toString()), Toast.LENGTH_SHORT).show();
+    public void updateTip() {
+        if (btnPressed != null) {
+            String strInputAmount = etInputAmount.getText().toString();
+            if (strInputAmount.isEmpty()) {
+                tvTipAmount.setText("");
                 return;
             }
 
-            double percentage = Double.parseDouble(v.getTag().toString());
+            double inputAmount;
+            try {
+                inputAmount = Double.parseDouble(etInputAmount.getText().toString());
+            } catch (NumberFormatException e) {
+                Toast toast = Toast.makeText(getApplicationContext(), String.format("Invalid input: %s", etInputAmount.getText().toString()), Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return;
+            }
 
+            double percentage = Double.parseDouble(btnPressed.getTag().toString());
             double tipAmount = inputAmount * percentage;
             tvTipAmount.setText(formatter.format(tipAmount));
         }
     }
+
 }
