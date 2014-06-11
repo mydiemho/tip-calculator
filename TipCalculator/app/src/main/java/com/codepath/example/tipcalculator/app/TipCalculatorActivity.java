@@ -40,6 +40,8 @@ public class TipCalculatorActivity extends Activity {
         tvTipPercentage = (TextView) findViewById(R.id.tvTipPercentage);
         sbTipPercentage = (SeekBar) findViewById(R.id.sbTipPercentage);
         npPeopleCount = (NumberPicker) findViewById(R.id.npPeopleCount);
+        npPeopleCount.setMinValue(1);
+        npPeopleCount.setMaxValue(100);
 
         setUpPeopleCountChangedListener();
         setUpInputChangedListener();
@@ -61,7 +63,7 @@ public class TipCalculatorActivity extends Activity {
                     toast.show();
                     return;
                 } else {
-                    tvTipPercentage.setText(PERCENTAGE_FORMATTER.format(progress));
+                    tvTipPercentage.setText(PERCENTAGE_FORMATTER.format(progress/100.0));
                     updateTip();
                 }
             }

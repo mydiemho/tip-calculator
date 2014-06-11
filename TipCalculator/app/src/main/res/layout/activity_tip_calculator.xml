@@ -14,6 +14,16 @@
         android:layout_marginTop="38dp"
         android:layout_alignParentTop="true" />
 
+    <NumberPicker
+        android:layout_below="@+id/tvPeopleCountLabel"
+        android:id="@+id/npPeopleCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignLeft="@+id/tvPeopleCountLabel"
+        android:clickable="true"
+        android:showDividers="beginning" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +33,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="38dp"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/tvPeopleCountLabel"/>
+        android:layout_toRightOf="@+id/tvPeopleCountLabel"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -147,16 +157,6 @@
         android:layout_marginLeft="20dp"
         android:layout_alignBaseline="@+id/tvBillPerPersonLabel"
         android:layout_toRightOf="@+id/tvBillPerPersonLabel" />
-
-    <NumberPicker
-        android:layout_below="@+id/tvPeopleCountLabel"
-        android:id="@+id/npPeopleCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_alignLeft="@id/tvPeopleCountLabel"
-        android:clickable="true"
-        android:showDividers="beginning" />
 
 
 </RelativeLayout>
