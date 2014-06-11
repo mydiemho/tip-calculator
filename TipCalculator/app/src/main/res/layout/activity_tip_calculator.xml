@@ -4,123 +4,175 @@
     android:layout_height="wrap_content"
     tools:context="${relativePackage}.${activityClass}">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/input_label"
-        android:id="@+id/tvInputLabel"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="38dp"
-        android:layout_alignParentTop="true" />
-
     <EditText
-        android:layout_width="wrap_content"
+        android:id="@+id/etInputAmount"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
-        android:id="@+id/etInputAmount"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text=""
-        android:hint="@string/input_label_hint"
-        android:layout_toRightOf="@id/tvInputLabel"
-        android:layout_alignBottom="@id/tvInputLabel"
-        android:layout_marginLeft="5dp"
+        android:hint="@string/label_input_hint"
+        android:gravity="right"
+        android:layout_marginTop="30dp"
         android:numeric="decimal" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_label_ok_service"
-        android:id="@+id/btnOkService"
-        android:tag="@string/tag_ok_service"
-        android:onClick="calculateTip"
-        android:layout_marginTop="10dp"
+    <LinearLayout
+        android:id="@+id/llButtons"
+        android:orientation="horizontal"
         android:layout_below="@+id/etInputAmount"
-        android:layout_toLeftOf="@+id/btnGoodService" />
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true">
 
-    <Button
+        <Button
+            android:id="@+id/btnOkService"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_label_ok_service"
+            android:tag="@string/tag_ok_service"
+            android:onClick="calculateTip" />
+
+        <Button
+            android:id="@+id/btnGoodService"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_label_good_service"
+            android:tag="@string/tag_good_service"
+            android:onClick="calculateTip" />
+
+        <Button
+            android:id="@+id/btnGreatService"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_label_great_service"
+            android:tag="@string/tag_great_service"
+            android:onClick="calculateTip" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llPeopleCount"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_label_good_service"
-        android:id="@+id/btnGoodService"
-        android:tag="@string/tag_good_service"
-        android:onClick="calculateTip"
-        android:layout_alignTop="@+id/btnOkService"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/llButtons">
 
-    <Button
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/ivPeople"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_people"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"/>
+
+        <NumberPicker
+            android:layout_marginLeft="20dp"
+            android:id="@+id/npPeopleCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llResult"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_label_great_service"
-        android:id="@+id/btnGreatService"
-        android:tag="@string/tag_great_service"
-        android:onClick="calculateTip"
-        android:layout_alignTop="@+id/btnOkService"
-        android:layout_below="@+id/etInputAmount"
-        android:layout_toRightOf="@+id/btnGoodService" />
+        android:layout_below="@+id/llPeopleCount"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:id="@+id/tvTipPercentageLabel"
-        android:text=""
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/btnGoodService"
-        android:layout_centerHorizontal="true" />
+        <LinearLayout
+            android:id="@+id/llTipTotal"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:weightSum="2" >
 
-    <SeekBar
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/sbTipPercentage"
-        android:max="100"
-        android:layout_alignLeft="@id/btnOkService"
-        android:layout_below="@+id/tvTipPercentageLabel" />
+            <TextView
+                android:id="@+id/tvTipTotalLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:gravity="left|center_vertical"
+                android:text="@string/label_tip_total" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/total_label"
-        android:id="@+id/tvTotalAmountLabel"
-        android:layout_below="@id/sbTipPercentage"
-        android:layout_marginTop="10dp"
-        android:layout_alignLeft="@+id/tvInputLabel"
-        android:layout_alignStart="@+id/tvInputLabel" />
+            <TextView
+                android:id="@+id/tvTipTotal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:gravity="left|center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/llBillTotal"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:layout_marginTop="5dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text=""
-        android:padding="20dp"
-        android:id="@+id/tvTotalAmount"
-        android:layout_alignBaseline="@+id/tvTotalAmountLabel"
-        android:layout_toRightOf="@+id/tvTotalAmountLabel"
-        android:layout_alignLeft="@+id/btnGoodService" />
+            <TextView
+                android:id="@+id/tvBillTotalLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_bill_total" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/tip_label"
-        android:id="@+id/tvTipAmountLabel"
-        android:textIsSelectable="false"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/tvTotalAmountLabel"
-        android:layout_alignStart="@+id/tvInputLabel" />
+            <TextView
+                android:id="@+id/tvBillTotal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="" />
+        </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:padding="20dp"
-        android:id="@+id/tvTipAmount"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_toRightOf="@+id/tvTipAmountLabel"
-        android:layout_below="@id/tvTotalAmount"
-        android:layout_alignStart="@+id/tvTotalAmount"
-        android:layout_alignBaseline="@+id/tvTipAmountLabel"        />
+        <LinearLayout
+            android:id="@+id/llBillPerPerson"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/tvBillPerPersonLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/label_bill_per_person" />
+
+            <TextView
+                android:id="@+id/tvBillPerPerson"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="" />
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
