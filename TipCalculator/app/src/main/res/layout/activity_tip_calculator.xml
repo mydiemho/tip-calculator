@@ -5,122 +5,162 @@
     tools:context="${relativePackage}.${activityClass}">
 
     <TextView
+        android:id="@+id/tvPeopleCountLabel"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/input_label"
-        android:id="@+id/tvInputLabel"
+        android:text="@string/label_people_count"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="38dp"
         android:layout_alignParentTop="true" />
 
     <EditText
+        android:id="@+id/etPeopleCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="number"
+        android:text="1"
+        android:layout_below="@id/tvPeopleCountLabel"
+        android:layout_alignStart="@+id/tvPeopleCountLabel"
+        android:numeric="integer" />
+
+    <TextView
+        android:id="@+id/tvInputLabel"
+        android:text="@string/label_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="38dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/tvPeopleCountLabel"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
         android:id="@+id/etInputAmount"
         android:text=""
-        android:hint="@string/input_label_hint"
-        android:layout_toRightOf="@id/tvInputLabel"
-        android:layout_alignBottom="@id/tvInputLabel"
-        android:layout_marginLeft="5dp"
-        android:numeric="decimal" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_label_ok_service"
-        android:id="@+id/btnOkService"
-        android:tag="@string/tag_ok_service"
-        android:onClick="calculateTip"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/etInputAmount"
-        android:layout_toLeftOf="@+id/btnGoodService" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_label_good_service"
-        android:id="@+id/btnGoodService"
-        android:tag="@string/tag_good_service"
-        android:onClick="calculateTip"
-        android:layout_alignTop="@+id/btnOkService"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_label_great_service"
-        android:id="@+id/btnGreatService"
-        android:tag="@string/tag_great_service"
-        android:onClick="calculateTip"
-        android:layout_alignTop="@+id/btnOkService"
-        android:layout_below="@+id/etInputAmount"
-        android:layout_toRightOf="@+id/btnGoodService" />
+        android:hint="@string/label_input_hint"
+        android:layout_below="@id/tvInputLabel"
+        android:layout_alignStart="@id/tvInputLabel"
+        android:numeric="integer" />
 
     <TextView
+        android:id="@+id/tvTipPercentageLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:id="@+id/tvTipPercentageLabel"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/label_tip_percentage"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="70dp"
+        android:layout_alignLeft="@id/tvPeopleCountLabel"
+        android:layout_below="@id/etPeopleCount" />
+
+    <TextView
+        android:id="@+id/tvTipPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text=""
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/btnGoodService"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginLeft="10dp"
+        android:layout_alignBaseline="@id/tvTipPercentageLabel"
+        android:layout_toRightOf="@id/tvTipPercentageLabel" />
 
     <SeekBar
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
         android:id="@+id/sbTipPercentage"
-        android:max="100"
-        android:layout_alignLeft="@id/btnOkService"
-        android:layout_below="@+id/tvTipPercentageLabel" />
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/tvTipPercentageLabel"
+        android:layout_centerInParent="true"
+        android:max="100" />
+
+
+    <Space
+        android:id="@+id/spDivider"
+        android:layout_width="20dp"
+        android:layout_height="200dp"
+        android:layout_below="@+id/sbTipPercentage"
+        android:layout_toRightOf="@+id/tvBillPerPersonLabel" />
 
     <TextView
+        android:id="@+id/tvTipPerPersonLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/total_label"
-        android:id="@+id/tvTotalAmountLabel"
+        android:text="@string/label_tip_per_person"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/sbTipPercentage"
-        android:layout_marginTop="10dp"
-        android:layout_alignLeft="@+id/tvInputLabel"
-        android:layout_alignStart="@+id/tvInputLabel" />
-
+        android:layout_alignLeft="@+id/tvPeopleCountLabel" />
 
     <TextView
+        android:id="@+id/tvTipPerPerson"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text=""
-        android:padding="20dp"
-        android:id="@+id/tvTotalAmount"
-        android:layout_alignBaseline="@+id/tvTotalAmountLabel"
-        android:layout_toRightOf="@+id/tvTotalAmountLabel"
-        android:layout_alignLeft="@+id/btnGoodService" />
+        android:layout_alignBaseline="@id/tvTipPerPersonLabel"
+        android:layout_toRightOf="@id/spDivider" />
 
     <TextView
+        android:id="@+id/tvTipTotalLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/tip_label"
-        android:id="@+id/tvTipAmountLabel"
+        android:text="@string/label_total_tip"
         android:textIsSelectable="false"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/tvTotalAmountLabel"
-        android:layout_alignStart="@+id/tvInputLabel" />
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@id/tvTipPerPersonLabel"
+        android:layout_below="@id/tvTipPerPersonLabel" />
 
     <TextView
+        android:id="@+id/tvTipTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:padding="20dp"
-        android:id="@+id/tvTipAmount"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_toRightOf="@+id/tvTipAmountLabel"
-        android:layout_below="@id/tvTotalAmount"
-        android:layout_alignStart="@+id/tvTotalAmount"
-        android:layout_alignBaseline="@+id/tvTipAmountLabel"        />
+        android:layout_toRightOf="@+id/spDivider"
+        android:layout_below="@id/tvTipPerPersonLabel"
+        android:layout_alignBaseline="@+id/tvTipTotalLabel"        />
+
+    <TextView
+        android:id="@+id/tvBillTotalLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/label_total_bill"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/tvTipTotalLabel"
+        android:layout_alignLeft="@+id/tvTipPerPersonLabel" />
+
+    <TextView
+        android:id="@+id/tvBillTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:layout_alignBaseline="@+id/tvBillTotalLabel"
+        android:layout_toRightOf="@+id/spDivider" />
+
+    <TextView
+        android:id="@+id/tvBillPerPersonLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/label_total_per_person"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/tvBillTotalLabel"
+        android:layout_alignLeft="@+id/tvTipPerPersonLabel" />
+
+    <TextView
+        android:id="@+id/tvBillPerPerson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:layout_alignBaseline="@+id/tvBillPerPersonLabel"
+        android:layout_toRightOf="@+id/spDivider" />
 
 </RelativeLayout>

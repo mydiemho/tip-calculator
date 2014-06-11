@@ -2,13 +2,18 @@
 <resources>
 
     <string name="app_name">TipCalculator</string>
-    <string name="tip_label">Total Tip</string>
-    <string name="input_label">Amount</string>
-    <string name="total_label">Total Amount</string>
-    <string name="input_label_hint">Enter a dollar amount</string>
-    <string name="btn_label_ok_service">10%</string>
-    <string name="btn_label_good_service">15%</string>
-    <string name="btn_label_great_service">20%</string>
+    <string name="label_input">Bill Amount:</string>
+    <string name="label_input_hint">Enter a dollar amount</string>
+    <string name="label_people_count">No. of people:</string>
+    <string name="label_people_count_hint">2</string>
+    <string name="label_tip_per_person">Tip per person:</string>
+    <string name="label_tip_percentage">Tip percentage:</string>
+    <string name="label_total_tip">Total Tip:</string>
+    <string name="label_total_bill">Total Bill:</string>
+    <string name="label_total_per_person">Total Per Person:</string>
+    <string name="label_ok_service">10%</string>
+    <string name="label_good_service">15%</string>
+    <string name="label_great_service">20%</string>
     <string name="tag_ok_service">10</string>
     <string name="tag_good_service">15</string>
     <string name="tag_great_service">20</string>

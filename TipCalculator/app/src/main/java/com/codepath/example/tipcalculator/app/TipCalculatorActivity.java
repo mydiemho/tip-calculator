@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -16,16 +14,18 @@ import java.text.NumberFormat;
 
 public class TipCalculatorActivity extends Activity {
 
+    private static final NumberFormat CURRENCY_FORMATTER = NumberFormat.getCurrencyInstance();
+    private static final NumberFormat PERCENTAGE_FORMATTER = NumberFormat.getNumberInstance();
     private EditText etInputAmount;
-    private TextView tvTipAmount;
-    private NumberFormat formatter = NumberFormat.getCurrencyInstance();
-    private Button btnOkService;
-    private Button btnGoodService;
-    private Button btnGreatService;
-    private int tipPercentage;
+    private TextView tvTipPerPerson;
+    private TextView tvTipTotal;
+    private TextView tvBillTotal;
+    private TextView tvBillPerPerson;
+    private TextView tvTipPercentage;
     private SeekBar sbTipPercentage;
-    private TextView tvTipPercentageLabel;
-    private TextView tvTotalAmount;
+    private EditText etPeopleCount;
+    private int tipPercentage;
+    private double inputAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +33,20 @@ public class TipCalculatorActivity extends Activity {
         setContentView(R.layout.activity_tip_calculator);
 
         etInputAmount = (EditText) findViewById(R.id.etInputAmount);
-        tvTipAmount = (TextView) findViewById(R.id.tvTipAmount);
-        btnOkService = (Button) findViewById(R.id.btnOkService);
-        btnGoodService = (Button) findViewById(R.id.btnGoodService);
-        btnGreatService = (Button) findViewById(R.id.btnGreatService);
+        tvTipPerPerson = (TextView) findViewById(R.id.tvTipPerPerson);
+        tvTipTotal = (TextView) findViewById(R.id.tvTipTotal);
+        tvBillTotal = (TextView) findViewById(R.id.tvBillTotal);
+        tvBillPerPerson = (TextView) findViewById(R.id.tvBillPerPerson);
+        tvTipPercentage = (TextView) findViewById(R.id.tvTipPercentage);
         sbTipPercentage = (SeekBar) findViewById(R.id.sbTipPercentage);
-        tvTipPercentageLabel = (TextView) findViewById(R.id.tvTipPercentageLabel);
-        tvTotalAmount = (TextView) findViewById(R.id.tvTotalAmount);
+        etPeopleCount = (EditText) findViewById(R.id.etPeopleCount);
+        tipPercentage = sbTipPercentage.getProgress();
 
-        setUpButtonClickListener();
+        String itemText = String.valueOf(etPeopleCount.getText());
+        // set cursor at end of text
+        etPeopleCount.setSelection(itemText.length());
+
+        setUpPeopleCountChangedListener();
         setUpInputChangedListener();
         setUpTipSliderChangedListener();
     }
@@ -51,21 +56,22 @@ public class TipCalculatorActivity extends Activity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                // Display error message when trying to calculate missing input.
-                String strInputAmount = etInputAmount.getText().toString();
-                if (strInputAmount.isEmpty()) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Please enter an amount", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    tvTipAmount.setText("");
-                    // return slider to its previous position
-                    seekBar.setProgress(tipPercentage);
-                    return;
-                }
+                String strInput = etInputAmount.getText().toString();
+                String strPeopleCount = etPeopleCount.getText().toString();
 
-                tipPercentage = seekBar.getProgress();
-                tvTipPercentageLabel.setText(String.valueOf(progress) + "%");
-                updateTip();
+                // prevent user from applying a percentage before entering an amount
+                if (strInput.isEmpty() || Double.parseDouble(strInput) == 0) {
+                    notifyInvalidInputAmount();
+                    sbTipPercentage.setProgress(tipPercentage);
+                    return;
+                } else if (strPeopleCount.isEmpty() || Integer.parseInt(strPeopleCount) == 0) {
+                    notifyInvalidPeopleCount();
+                    sbTipPercentage.setProgress(tipPercentage);
+                    return;
+                } else {
+                    tvTipPercentage.setText(String.valueOf(progress));
+                    updateTip();
+                }
             }
 
             @Override
@@ -75,38 +81,52 @@ public class TipCalculatorActivity extends Activity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
     }
 
-    private void setUpButtonClickListener() {
-        btnOkService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnGoodService.setEnabled(true);
-                btnGreatService.setEnabled(true);
-                tipPercentage = Integer.parseInt(v.getTag().toString());
-                calculateTip(v);
-            }
-        });
+    private void notifyInvalidPeopleCount() {
+        Toast toast = Toast.makeText(getApplicationContext(), "Number of people cannot be empty or zero", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
 
-        btnGoodService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tipPercentage = Integer.parseInt(v.getTag().toString());
-                btnOkService.setEnabled(true);
-                btnGreatService.setEnabled(true);
-                calculateTip(v);
-            }
-        });
+    private void notifyInvalidInputAmount() {
+        Toast toast = Toast.makeText(getApplicationContext(), "Bill Amount cannot be empty or zero", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
 
-        btnGreatService.setOnClickListener(new View.OnClickListener() {
+    private void setUpPeopleCountChangedListener() {
+        etPeopleCount.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                tipPercentage = Integer.parseInt(v.getTag().toString());
-                btnOkService.setEnabled(true);
-                btnGoodService.setEnabled(true);
-                calculateTip(v);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // if user try to enter a zero count or remove count, display warning msg
+                // and undo user edit
+                String strPeopleCount = etPeopleCount.getText().toString();
+                if (strPeopleCount.isEmpty() || Integer.parseInt(strPeopleCount) == 0) {
+                    notifyInvalidPeopleCount();
+                    String itemText = String.valueOf(before);
+                    etPeopleCount.setText(itemText);
+                    // set cursor at end of text
+                    etPeopleCount.setSelection(itemText.length());
+                    return;
+                }
+
+                // update if input amount is not empty and tip percentage is greater than zero
+                String strInput = etInputAmount.getText().toString();
+                if (!strInput.isEmpty() && Double.parseDouble(strInput) > 0 && sbTipPercentage.getProgress() > 0) {
+                    updateTip();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
     }
@@ -119,7 +139,19 @@ public class TipCalculatorActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                updateTip();
+                String strInput = etInputAmount.getText().toString();
+                String strPeopleCount = etPeopleCount.getText().toString();
+
+                if (strInput.isEmpty() || Double.parseDouble(strInput) == 0) {
+                    notifyInvalidInputAmount();
+                    reset();
+                    return;
+                }
+
+                // if tip percentage is greater than zero and input is not empty, update
+                if (sbTipPercentage.getProgress() > 0) {
+                    updateTip();
+                }
             }
 
             @Override
@@ -128,45 +160,27 @@ public class TipCalculatorActivity extends Activity {
         });
     }
 
-    public void calculateTip(View v) {
-
-        String strInputAmount = etInputAmount.getText().toString();
-        if (strInputAmount.isEmpty()) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Please enter an amount", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-            tvTipAmount.setText("");
-            return;
-        }
-
-        // disabled button once it's pressed
-        v.setEnabled(false);
-
-        // change slider to reflect button pressed
-        sbTipPercentage.setProgress(tipPercentage);
-
-        double inputAmount = Double.parseDouble(etInputAmount.getText().toString());
-        double tipAmount = inputAmount * (tipPercentage / 100.0);
-        tvTipAmount.setText(formatter.format(tipAmount));
-        tvTotalAmount.setText(formatter.format(tipAmount + inputAmount));
+    private void reset() {
+        tvTipPerPerson.setText("");
+        tvTipTotal.setText("");
+        tvBillTotal.setText("");
+        tvBillPerPerson.setText("");
     }
 
     public void updateTip() {
-        // only update tip amount after input change if one of the button is clicked
-        // or if the slider is changed to a nonzero value.
-        if (tipPercentage != 0) {
-            String strInputAmount = etInputAmount.getText().toString();
-            if (strInputAmount.isEmpty()) {
-                tvTipAmount.setText("");
-                return;
-            }
+        // only update tip amount if input is not zero, people count is greater than 1, and
+        // a percentage is selected
 
-            double inputAmount = Double.parseDouble(etInputAmount.getText().toString());
-            double tipAmount = inputAmount * (tipPercentage / 100.0);
-            tvTipAmount.setText(formatter.format(tipAmount));
-            tvTotalAmount.setText(formatter.format(tipAmount + inputAmount));
-
-        }
+        tipPercentage = sbTipPercentage.getProgress();
+        inputAmount = Double.parseDouble(etInputAmount.getText().toString());
+        int peopleCount = Integer.parseInt(etPeopleCount.getText().toString());
+        double tipTotal = inputAmount * (tipPercentage / 100.0);
+        double tipPerPerson = tipTotal / peopleCount;
+        double billTotal = inputAmount + tipTotal;
+        double billPerPerson = billTotal / peopleCount;
+        tvTipPerPerson.setText(CURRENCY_FORMATTER.format(tipPerPerson));
+        tvTipTotal.setText(CURRENCY_FORMATTER.format(tipTotal));
+        tvBillTotal.setText(CURRENCY_FORMATTER.format(billTotal));
+        tvBillPerPerson.setText(CURRENCY_FORMATTER.format(billPerPerson));
     }
-
 }
