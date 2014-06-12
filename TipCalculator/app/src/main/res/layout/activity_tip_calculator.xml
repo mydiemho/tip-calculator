@@ -11,11 +11,11 @@
         android:layout_marginTop="30dp"
         android:gravity="right"
         android:hint="@string/label_input_hint"
+        android:imeOptions="actionDone"
         android:inputType="numberDecimal"
         android:numeric="decimal"
         android:text=""
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:imeOptions="actionDone" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout
         android:id="@+id/llTipPercentage"
@@ -32,8 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/etInputAmount"
             android:layout_marginTop="15dp"
-            android:orientation="horizontal"
-            android:weightSum="5">
+            android:orientation="horizontal">
 
             <RadioGroup
                 android:id="@+id/rgTipPercentage"
@@ -42,7 +41,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/llPeopleCountButtons"
-                android:layout_weight="4"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -56,9 +54,9 @@
                     android:id="@+id/rbGoodService"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:tag="@string/tag_good_service"
-                    android:text="@string/btn_label_good_service"
-                    android:checked="true"/>
+                    android:text="@string/btn_label_good_service" />
 
                 <RadioButton
                     android:id="@+id/rbGreatService"
@@ -84,139 +82,128 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <!--<EditText-->
-                <!--android:id="@+id/etTipPercentage"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:enabled="false"-->
-                <!--android:hint="%"-->
-                <!--android:inputType="number"-->
-                <!--android:numeric="integer" />-->
-
             <SeekBar
                 android:id="@+id/sbTipPercentage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_gravity="center_horizontal"
+                android:layout_weight="2"
                 android:max="100" />
-                />
+            />
 
             <TextView
                 android:id="@+id/tvTipPercentage"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text=""
                 android:gravity="center"
-                android:visibility="invisible"/>
-
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:visibility="invisible" />
         </LinearLayout>
+
     </LinearLayout>
-
-    <!--<LinearLayout-->
-    <!--android:id="@+id/llPeopleCount"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:layout_below="@+id/llTipButtons"-->
-    <!--android:layout_width="fill_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginTop="15dp"-->
-    <!--android:gravity="center"-->
-    <!--android:layout_centerHorizontal="true">-->
-
-
-    <!--<ImageView-->
-    <!--android:id="@+id/ivPeople"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight="1"-->
-    <!--android:src="@drawable/ic_people"-->
-    <!--android:scaleType="fitXY"-->
-    <!--android:adjustViewBounds="true"/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btnOne"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight="1"-->
-    <!--android:text="@string/btn_label_one"-->
-    <!--android:tag="@string/tag_one"-->
-    <!--android:onClick="calculateTip" />-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btnTwo"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight="1"-->
-    <!--android:text="@string/btn_label_two"-->
-    <!--android:tag="@string/tag_two"-->
-    <!--android:onClick="calculateTip" />-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btnThree"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight="1"-->
-    <!--android:text="@string/btn_label_three"-->
-    <!--android:tag="@string/tag_three"-->
-    <!--android:onClick="calculateTip" />-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btnFour"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight="1"-->
-    <!--android:text="@string/btn_label_four"-->
-    <!--android:tag="@string/tag_four"-->
-    <!--android:onClick="calculateTip" />-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btnFive"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight="1"-->
-    <!--android:text="@string/btn_label_five"-->
-    <!--android:tag="@string/tag_five"-->
-    <!--android:onClick="calculateTip" />-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btnSix"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight="1"-->
-    <!--android:text="@string/btn_label_six"-->
-    <!--android:tag="@string/tag_six"-->
-    <!--android:onClick="calculateTip" />-->
-
-    <!--</LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/llPeopleCount"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/llTipPercentage"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/ivPeople"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             android:src="@drawable/ic_people" />
 
-        <NumberPicker
-            android:id="@+id/npPeopleCount"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btnOne"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp" />
+            android:layout_weight="1"
+            android:onClick="calculateTip"
+            android:tag="@string/tag_one"
+            android:text="@string/btn_label_one" />
+
+        <Button
+            android:id="@+id/btnTwo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="calculateTip"
+            android:tag="@string/tag_two"
+            android:text="@string/btn_label_two" />
+
+        <Button
+            android:id="@+id/btnThree"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="calculateTip"
+            android:tag="@string/tag_three"
+            android:text="@string/btn_label_three" />
+
+        <Button
+            android:id="@+id/btnFour"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="calculateTip"
+            android:tag="@string/tag_four"
+            android:text="@string/btn_label_four" />
+
+        <Button
+            android:id="@+id/btnFive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="calculateTip"
+            android:tag="@string/tag_five"
+            android:text="@string/btn_label_five" />
+
+        <Button
+            android:id="@+id/btnSix"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="calculateTip"
+            android:tag="@string/tag_six"
+            android:text="@string/btn_label_six" />
+
     </LinearLayout>
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/llPeopleCount"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/llTipPercentage"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:layout_marginTop="15dp"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/ivPeople"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:adjustViewBounds="true"-->
+    <!--android:scaleType="fitXY"-->
+    <!--android:src="@drawable/ic_people" />-->
+
+    <!--<NumberPicker-->
+    <!--android:id="@+id/npPeopleCount"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginLeft="20dp" />-->
+    <!--</LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/llResult"

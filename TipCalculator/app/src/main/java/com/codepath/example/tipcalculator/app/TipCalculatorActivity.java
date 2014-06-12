@@ -28,14 +28,16 @@ public class TipCalculatorActivity extends Activity {
     private static final NumberFormat PERCENTAGE_FORMATTER = NumberFormat.getPercentInstance();
     private EditText etInputAmount;
     private TextView tvTipTotal;
-    private Button btnOkService;
-    private Button btnGoodService;
-    private Button btnGreatService;
+    private Button btnOne;
+    private Button btnTwo;
+    private Button btnThree;
+    private Button btnFour;
+    private Button btnFive;
+    private Button btnSix;
     private TextView tvBillTotal;
     private TextView tvBillPerPerson;
     private int tipPercentage;
     private RadioGroup rgTipPercentage;
-    private NumberPicker npPeopleCount;
     private SeekBar sbTipPercentage;
     private TextView tvTipPercentage;
 
@@ -51,10 +53,6 @@ public class TipCalculatorActivity extends Activity {
         tvBillTotal = (TextView) findViewById(R.id.tvBillTotal);
         tvBillPerPerson = (TextView) findViewById(R.id.tvBillPerPerson);
 
-        npPeopleCount = (NumberPicker) findViewById(R.id.npPeopleCount);
-        npPeopleCount.setMinValue(1);
-        npPeopleCount.setMinValue(6);
-
         rgTipPercentage = (RadioGroup) findViewById(R.id.rgTipPercentage);
         sbTipPercentage = (SeekBar) findViewById(R.id.sbTipPercentage);
         sbTipPercentage.setEnabled(false);
@@ -64,21 +62,20 @@ public class TipCalculatorActivity extends Activity {
         View radioButton = rgTipPercentage.findViewById(radioButtonID);
         tipPercentage = Integer.parseInt(radioButton.getTag().toString());
 
+        btnOne = (Button) findViewById(R.id.btnOne);
+        btnTwo = (Button) findViewById(R.id.btnTwo);
+        btnThree = (Button) findViewById(R.id.btnThree);
+        btnFour = (Button) findViewById(R.id.btnFour);
+        btnFive = (Button) findViewById(R.id.btnFive);
+        btnSix = (Button) findViewById(R.id.btnSix);
+
         setUpTipPercentageChangedListener();
         setUpInputChangedListener();
         setUpPeopleCountChangedListener();
     }
 
     private void setUpPeopleCountChangedListener() {
-        npPeopleCount.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                String strInputAmount = etInputAmount.getText().toString();
-                if (strInputAmount.isEmpty() || Double.parseDouble(strInputAmount) == 0 && tipPercentage != 0) {
-                    updateTip();
-                }
-            }
-        });
+
     }
 
     private void setUpSliderChangedListener() {
@@ -108,7 +105,6 @@ public class TipCalculatorActivity extends Activity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 View radioButton = rgTipPercentage.findViewById(checkedId);
 
-//                rgTipPercentage.clearCheck();
                 rgTipPercentage.check(checkedId);
 
                 // if other is checked, enabled slider
