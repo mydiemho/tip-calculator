@@ -7,8 +7,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -18,7 +18,6 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 import static android.view.Gravity.CENTER_HORIZONTAL;
-import static android.widget.LinearLayout.HORIZONTAL;
 import static de.keyboardsurfer.android.widget.crouton.Style.Builder;
 import static de.keyboardsurfer.android.widget.crouton.Style.holoBlueLight;
 
@@ -32,8 +31,10 @@ public class TipCalculatorActivity extends Activity {
     private Button btnGreatService;
     private TextView tvBillTotal;
     private TextView tvBillPerPerson;
-    private NumberPicker npPeopleCount;
     private int tipPercentage;
+    private RadioGroup rgTipPercentage;
+    private NumberPicker npPeopleCount;
+    private EditText etTipPercentage;
 
     private boolean btnPressed = false;
 
@@ -46,14 +47,12 @@ public class TipCalculatorActivity extends Activity {
         tvTipTotal = (TextView) findViewById(R.id.tvTipTotal);
         tvBillTotal = (TextView) findViewById(R.id.tvBillTotal);
         tvBillPerPerson = (TextView) findViewById(R.id.tvBillPerPerson);
-        btnOkService = (Button) findViewById(R.id.btnOkService);
-        btnGoodService = (Button) findViewById(R.id.btnGoodService);
-        btnGreatService = (Button) findViewById(R.id.btnGreatService);
-        npPeopleCount = (NumberPicker) findViewById(R.id.npPeopleCount);
-        npPeopleCount.setMinValue(1);
-        npPeopleCount.setMaxValue(10);
 
-        setUpButtonClickListener();
+        npPeopleCount = (NumberPicker) findViewById(R.id.npPeopleCount);
+        rgTipPercentage = (RadioGroup) findViewById(R.id.rgTipPercentage);
+        etTipPercentage = (EditText) findViewById(R.id.etTipPercentage);
+
+        setUpTipPercentageChangedListener();
         setUpInputChangedListener();
         setUpPeopleCountChangedListener();
     }
@@ -67,34 +66,28 @@ public class TipCalculatorActivity extends Activity {
         });
     }
 
-    private void setUpButtonClickListener() {
-        btnOkService.setOnClickListener(new View.OnClickListener() {
+    private void setUpTipPercentageChangedListener() {
+        rgTipPercentage.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                btnGoodService.setEnabled(true);
-                btnGreatService.setEnabled(true);
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int radioButtonID = rgTipPercentage.getCheckedRadioButtonId();
+                View radioButton = rgTipPercentage.findViewById(radioButtonID);
 
-                calculateTip(v);
-            }
-        });
+                rgTipPercentage.clearCheck();
+                rgTipPercentage.check(checkedId);
 
-        btnGoodService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnOkService.setEnabled(true);
-                btnGreatService.setEnabled(true);
+                // if other is checked, enabled input
+                if (radioButton.getTag() == R.string.tag_other_service) {
+                    etTipPercentage.isEnabled();
 
-                calculateTip(v);
-            }
-        });
-
-        btnGreatService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnOkService.setEnabled(true);
-                btnGoodService.setEnabled(true);
-
-                calculateTip(v);
+                    // force user to enter a tip percentage
+                    tipPercentage = 0;
+                } else {
+                    if (!etTipPercentage.getText().toString().isEmpty()) {
+                        etTipPercentage.setText("");
+                    }
+                    tipPercentage = Integer.parseInt(radioButton.getTag().toString());
+                }
             }
         });
     }
@@ -128,27 +121,30 @@ public class TipCalculatorActivity extends Activity {
 
     private void updateTip() {
 
-        if (btnPressed) {
-            String strInputAmount = etInputAmount.getText().toString();
-            if (strInputAmount.isEmpty() || Double.parseDouble(strInputAmount) == 0) {
-                // clear result if input is missing or zero
-                tvTipTotal.setText("");
-                tvBillTotal.setText("");
-                notifyInvalidInputAmount();
-                return;
-            }
+        if (tipPercentage == 0) {
+            showWarning(getString(R.string.msg_missing_invalid_input));
 
-            int peopleCount = npPeopleCount.getValue();
-            double inputAmount = Double.parseDouble(etInputAmount.getText().toString());
-            double tipAmount = inputAmount * (tipPercentage / 100.0);
-            double totalAmount = inputAmount + tipAmount;
-            tvTipTotal.setText(CURRENCY_FORMATTER.format(tipAmount));
-            tvBillTotal.setText(CURRENCY_FORMATTER.format(totalAmount));
-            tvBillPerPerson.setText(CURRENCY_FORMATTER.format(totalAmount / peopleCount));
         }
+        String strInputAmount = etInputAmount.getText().toString();
+        if (strInputAmount.isEmpty() || Double.parseDouble(strInputAmount) == 0) {
+            // clear result if input is missing or zero
+            tvTipTotal.setText("");
+            tvBillTotal.setText("");
+            showWarning(getString(R.string.msg_missing_invalid_input));
+            return;
+        }
+
+        int peopleCount = npPeopleCount.getValue();
+        double inputAmount = Double.parseDouble(etInputAmount.getText().toString());
+        double tipAmount = inputAmount * (tipPercentage / 100.0);
+        double totalAmount = inputAmount + tipAmount;
+        tvTipTotal.setText(CURRENCY_FORMATTER.format(tipAmount));
+        tvBillTotal.setText(CURRENCY_FORMATTER.format(totalAmount));
+        tvBillPerPerson.setText(CURRENCY_FORMATTER.format(totalAmount / peopleCount));
+
     }
 
-    private void notifyInvalidInputAmount() {
+    private void showWarning(String msg) {
         // Define configuration options
         Configuration croutonConfiguration = new Configuration.Builder()
                 .setDuration(1000).build();
@@ -159,6 +155,6 @@ public class TipCalculatorActivity extends Activity {
                 .setBackgroundColorValue(holoBlueLight)
                 .build();
         // Display notice with custom style and configuration
-        Crouton.makeText(this, R.string.msg_invalid_input, style).show();
+        Crouton.makeText(this, msg, style).show();
     }
 }
