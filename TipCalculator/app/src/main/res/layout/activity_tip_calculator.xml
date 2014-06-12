@@ -14,7 +14,8 @@
         android:hint="@string/label_input_hint"
         android:gravity="right"
         android:layout_marginTop="30dp"
-        android:numeric="decimal" />
+        android:numeric="decimal"
+        android:imeOptions="actionDone" />
 
     <LinearLayout
         android:id="@+id/llButtons"
@@ -56,30 +57,104 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llPeopleCount"
+        android:id="@+id/llPeopleCountButtons"
         android:orientation="horizontal"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
+        android:layout_below="@+id/llButtons"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_below="@+id/llButtons">
+        android:gravity="center"
+        android:weightSum="7"
+        android:layout_centerHorizontal="true">
 
         <ImageView
             android:id="@+id/ivPeople"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_weight="1"
             android:src="@drawable/ic_people"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"/>
 
-        <NumberPicker
-            android:layout_marginLeft="20dp"
-            android:id="@+id/npPeopleCount"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/rgPeopleCount"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal" />
+            android:layout_weight="6"
+            android:layout_below="@+id/llButtons"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/tbOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_label_one"
+                android:tag="@string/tag_one"
+                android:onClick="calculateTip" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner"
+                android:layout_gravity="bottom"
+                android:layout_weight="1" />
+
+            <ToggleButton
+                android:id="@+id/tbTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_label_two"
+                android:tag="@string/tag_two"
+                android:onClick="calculateTip" />
+
+            <ToggleButton
+                android:id="@+id/tbThree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_label_three"
+                android:tag="@string/tag_three"
+                android:onClick="calculateTip" />
+
+            <ToggleButton
+                android:id="@+id/tbFour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="@string/btn_label_four"
+                android:textOff="@string/btn_label_four"
+                android:tag="@string/tag_four"
+                android:onClick="calculateTip" />
+
+            <ToggleButton
+                android:id="@+id/tbFive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="@string/btn_label_five"
+                android:textOff="@string/btn_label_five"
+                android:tag="@string/tag_five"
+                android:onClick="calculateTip" />
+
+            <ToggleButton
+                android:id="@+id/tbSix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="@string/btn_label_six"
+                android:textOff="@string/btn_label_six"
+                android:tag="@string/tag_six"
+                android:layout_alignParentTop="true"
+                android:onClick="calculateTip" />
+
+            <ToggleButton
+                android:id="@+id/toggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="New ToggleButton"
+                android:textOff="New ToggleButton"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="48dp" />
+
+        </RadioGroup>
+
     </LinearLayout>
 
     <LinearLayout
@@ -87,7 +162,7 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/llPeopleCount"
+        android:layout_below="@+id/llPeopleCountButtons"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true">
 
