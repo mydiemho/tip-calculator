@@ -14,7 +14,8 @@
         android:inputType="numberDecimal"
         android:numeric="decimal"
         android:text=""
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:imeOptions="actionDone" />
 
     <LinearLayout
         android:id="@+id/llTipPercentage"
@@ -56,7 +57,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:tag="@string/tag_good_service"
-                    android:text="@string/btn_label_good_service" />
+                    android:text="@string/btn_label_good_service"
+                    android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/rbGreatService"
@@ -75,11 +77,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/llOtherTipPercentage"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:orientation="horizontal"
-            android:weightSum="5">
+            android:weightSum="3">
 
             <!--<EditText-->
                 <!--android:id="@+id/etTipPercentage"-->
@@ -93,10 +96,22 @@
 
             <SeekBar
                 android:id="@+id/sbTipPercentage"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:mi
-                android:layout_gravity="center_horizontal" />
+                android:layout_weight="2"
+                android:layout_gravity="center_horizontal"
+                android:max="100" />
+                />
+
+            <TextView
+                android:id="@+id/tvTipPercentage"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=""
+                android:gravity="center"
+                android:visibility="invisible"/>
 
         </LinearLayout>
     </LinearLayout>

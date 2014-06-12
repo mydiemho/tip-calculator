@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -24,6 +25,7 @@ import static de.keyboardsurfer.android.widget.crouton.Style.holoBlueLight;
 public class TipCalculatorActivity extends Activity {
 
     private static final NumberFormat CURRENCY_FORMATTER = NumberFormat.getCurrencyInstance();
+    private static final NumberFormat PERCENTAGE_FORMATTER = NumberFormat.getPercentInstance();
     private EditText etInputAmount;
     private TextView tvTipTotal;
     private Button btnOkService;
@@ -34,7 +36,8 @@ public class TipCalculatorActivity extends Activity {
     private int tipPercentage;
     private RadioGroup rgTipPercentage;
     private NumberPicker npPeopleCount;
-    private EditText etTipPercentage;
+    private SeekBar sbTipPercentage;
+    private TextView tvTipPercentage;
 
     private boolean btnPressed = false;
 
@@ -49,8 +52,17 @@ public class TipCalculatorActivity extends Activity {
         tvBillPerPerson = (TextView) findViewById(R.id.tvBillPerPerson);
 
         npPeopleCount = (NumberPicker) findViewById(R.id.npPeopleCount);
+        npPeopleCount.setMinValue(1);
+        npPeopleCount.setMinValue(6);
+
         rgTipPercentage = (RadioGroup) findViewById(R.id.rgTipPercentage);
-        etTipPercentage = (EditText) findViewById(R.id.etTipPercentage);
+        sbTipPercentage = (SeekBar) findViewById(R.id.sbTipPercentage);
+        sbTipPercentage.setEnabled(false);
+        tvTipPercentage = (TextView) findViewById(R.id.tvTipPercentage);
+
+        int radioButtonID = rgTipPercentage.getCheckedRadioButtonId();
+        View radioButton = rgTipPercentage.findViewById(radioButtonID);
+        tipPercentage = Integer.parseInt(radioButton.getTag().toString());
 
         setUpTipPercentageChangedListener();
         setUpInputChangedListener();
@@ -61,35 +73,59 @@ public class TipCalculatorActivity extends Activity {
         npPeopleCount.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                updateTip();
+                String strInputAmount = etInputAmount.getText().toString();
+                if (strInputAmount.isEmpty() || Double.parseDouble(strInputAmount) == 0 && tipPercentage != 0) {
+                    updateTip();
+                }
             }
         });
     }
 
+    private void setUpSliderChangedListener() {
+        sbTipPercentage.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                tipPercentage = sbTipPercentage.getProgress();
+                tvTipPercentage.setText(PERCENTAGE_FORMATTER.format(sbTipPercentage.getProgress()/100.0));
+
+                updateTip();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
     private void setUpTipPercentageChangedListener() {
         rgTipPercentage.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                int radioButtonID = rgTipPercentage.getCheckedRadioButtonId();
-                View radioButton = rgTipPercentage.findViewById(radioButtonID);
+                View radioButton = rgTipPercentage.findViewById(checkedId);
 
-                rgTipPercentage.clearCheck();
+//                rgTipPercentage.clearCheck();
                 rgTipPercentage.check(checkedId);
 
-                // if other is checked, enabled input
-                if (radioButton.getTag() == R.string.tag_other_service) {
-                    etTipPercentage.isEnabled();
-
-                    // force user to enter a tip percentage
-                    tipPercentage = 0;
+                // if other is checked, enabled slider
+                if (radioButton.getTag() == getString(R.string.tag_other_service)) {
+                    sbTipPercentage.setEnabled(true);
+                    tvTipPercentage.setVisibility(View.VISIBLE);
                 } else {
-                    if (!etTipPercentage.getText().toString().isEmpty()) {
-                        etTipPercentage.setText("");
-                    }
+                    // disabled slider and hide text view
+                    sbTipPercentage.setEnabled(false);
+                    tvTipPercentage.setVisibility(View.INVISIBLE);
                     tipPercentage = Integer.parseInt(radioButton.getTag().toString());
+                    updateTip();
                 }
             }
         });
+
+        setUpSliderChangedListener();
     }
 
     private void setUpInputChangedListener() {
@@ -109,22 +145,12 @@ public class TipCalculatorActivity extends Activity {
         });
     }
 
-    private void calculateTip(View v) {
-        btnPressed = true;
-        // disabled button once it's pressed
-        v.setEnabled(false);
-
-        tipPercentage = Integer.parseInt(v.getTag().toString());
-
-        updateTip();
-    }
-
     private void updateTip() {
 
         if (tipPercentage == 0) {
-            showWarning(getString(R.string.msg_missing_invalid_input));
-
+            showWarning(getString(R.string.msg_missing_invalid_tip_percentage));
         }
+
         String strInputAmount = etInputAmount.getText().toString();
         if (strInputAmount.isEmpty() || Double.parseDouble(strInputAmount) == 0) {
             // clear result if input is missing or zero
@@ -147,7 +173,7 @@ public class TipCalculatorActivity extends Activity {
     private void showWarning(String msg) {
         // Define configuration options
         Configuration croutonConfiguration = new Configuration.Builder()
-                .setDuration(1000).build();
+                .setDuration(800).build();
         // Define custom styles for crouton
         Style style = new Builder()
                 .setGravity(CENTER_HORIZONTAL)

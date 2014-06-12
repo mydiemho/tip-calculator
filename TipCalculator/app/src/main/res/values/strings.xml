@@ -9,7 +9,7 @@
     <string name="label_input_hint">$</string>
 
     <string name="msg_missing_invalid_input">Bill amount cannot be empty or zero</string>
-    <string name="msg_missing_tip_percentage">Tip amount cannot be empty or zero</string>
+    <string name="msg_missing_invalid_tip_percentage">Tip amount cannot be empty or zero</string>
 
     <string name="btn_label_ok_service">10%</string>
     <string name="btn_label_good_service">15%</string>
