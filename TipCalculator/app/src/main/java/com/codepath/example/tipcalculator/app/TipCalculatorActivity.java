@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -34,6 +35,7 @@ public class TipCalculatorActivity extends Activity {
     private TextView tvBillPerPerson;
     private NumberPicker npPeopleCount;
     private int tipPercentage;
+    private RadioGroup rgTipPercentage;
 
     private boolean btnPressed = false;
 
@@ -46,12 +48,12 @@ public class TipCalculatorActivity extends Activity {
         tvTipTotal = (TextView) findViewById(R.id.tvTipTotal);
         tvBillTotal = (TextView) findViewById(R.id.tvBillTotal);
         tvBillPerPerson = (TextView) findViewById(R.id.tvBillPerPerson);
+
+        rgTipPercentage = (RadioGroup) findViewById(R.id.rgTipPercentage);
+
         btnOkService = (Button) findViewById(R.id.btnOkService);
         btnGoodService = (Button) findViewById(R.id.btnGoodService);
         btnGreatService = (Button) findViewById(R.id.btnGreatService);
-        npPeopleCount = (NumberPicker) findViewById(R.id.npPeopleCount);
-        npPeopleCount.setMinValue(1);
-        npPeopleCount.setMaxValue(10);
 
         setUpButtonClickListener();
         setUpInputChangedListener();
