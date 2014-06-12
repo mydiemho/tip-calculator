@@ -169,6 +169,8 @@ public class TipCalculatorActivity extends Activity {
             // clear result if input is missing or zero
             tvTipTotal.setText("");
             tvBillTotal.setText("");
+            tvBillPerPerson.setText("");
+            
             showWarning(getString(R.string.msg_missing_invalid_input));
             return;
         }
