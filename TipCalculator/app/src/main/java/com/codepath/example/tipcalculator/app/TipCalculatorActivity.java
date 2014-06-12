@@ -5,12 +5,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.text.NumberFormat;
 
@@ -27,21 +26,19 @@ public class TipCalculatorActivity extends Activity {
     private static final NumberFormat CURRENCY_FORMATTER = NumberFormat.getCurrencyInstance();
     private static final NumberFormat PERCENTAGE_FORMATTER = NumberFormat.getPercentInstance();
     private EditText etInputAmount;
+
     private TextView tvTipTotal;
-    private Button btnOne;
-    private Button btnTwo;
-    private Button btnThree;
-    private Button btnFour;
-    private Button btnFive;
-    private Button btnSix;
     private TextView tvBillTotal;
     private TextView tvBillPerPerson;
-    private int tipPercentage;
+
     private RadioGroup rgTipPercentage;
     private SeekBar sbTipPercentage;
     private TextView tvTipPercentage;
 
-    private boolean btnPressed = false;
+    private RadioGroup rgPeopleCount;
+
+    private int tipPercentage;
+    private int peopleCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +59,10 @@ public class TipCalculatorActivity extends Activity {
         View radioButton = rgTipPercentage.findViewById(radioButtonID);
         tipPercentage = Integer.parseInt(radioButton.getTag().toString());
 
-        btnOne = (Button) findViewById(R.id.btnOne);
-        btnTwo = (Button) findViewById(R.id.btnTwo);
-        btnThree = (Button) findViewById(R.id.btnThree);
-        btnFour = (Button) findViewById(R.id.btnFour);
-        btnFive = (Button) findViewById(R.id.btnFive);
-        btnSix = (Button) findViewById(R.id.btnSix);
+        rgPeopleCount = (RadioGroup) findViewById(R.id.rgPeopleCount);
+        rgPeopleCount.check(0);
+        // default
+        peopleCount = 1;
 
         setUpTipPercentageChangedListener();
         setUpInputChangedListener();
@@ -75,7 +70,28 @@ public class TipCalculatorActivity extends Activity {
     }
 
     private void setUpPeopleCountChangedListener() {
+        rgPeopleCount.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
 
+//                rgPeopleCount.check(-1);        // this cause stackoverflow
+//                rgPeopleCount.check(checkedId);
+                for(int i = 0; i < rgPeopleCount.getChildCount(); i++) {
+                    ToggleButton toggleButton = (ToggleButton) rgPeopleCount.getChildAt(i);
+                    toggleButton.setChecked(toggleButton.getId() == checkedId);
+                }
+
+                ToggleButton toggleButton = (ToggleButton) rgPeopleCount.findViewById(checkedId);
+                peopleCount = Integer.parseInt(toggleButton.getTag().toString());
+
+                updateTip();
+            }
+        });
+    }
+
+    public void onToggle(View view)
+    {
+        rgPeopleCount.check(view.getId());
     }
 
     private void setUpSliderChangedListener() {
@@ -83,7 +99,7 @@ public class TipCalculatorActivity extends Activity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tipPercentage = sbTipPercentage.getProgress();
-                tvTipPercentage.setText(PERCENTAGE_FORMATTER.format(sbTipPercentage.getProgress()/100.0));
+                tvTipPercentage.setText(PERCENTAGE_FORMATTER.format(sbTipPercentage.getProgress() / 100.0));
 
                 updateTip();
             }
@@ -99,12 +115,12 @@ public class TipCalculatorActivity extends Activity {
             }
         });
     }
+
     private void setUpTipPercentageChangedListener() {
         rgTipPercentage.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 View radioButton = rgTipPercentage.findViewById(checkedId);
-
                 rgTipPercentage.check(checkedId);
 
                 // if other is checked, enabled slider
@@ -115,6 +131,7 @@ public class TipCalculatorActivity extends Activity {
                     // disabled slider and hide text view
                     sbTipPercentage.setEnabled(false);
                     tvTipPercentage.setVisibility(View.INVISIBLE);
+
                     tipPercentage = Integer.parseInt(radioButton.getTag().toString());
                     updateTip();
                 }
@@ -156,14 +173,12 @@ public class TipCalculatorActivity extends Activity {
             return;
         }
 
-        int peopleCount = npPeopleCount.getValue();
         double inputAmount = Double.parseDouble(etInputAmount.getText().toString());
         double tipAmount = inputAmount * (tipPercentage / 100.0);
         double totalAmount = inputAmount + tipAmount;
         tvTipTotal.setText(CURRENCY_FORMATTER.format(tipAmount));
         tvBillTotal.setText(CURRENCY_FORMATTER.format(totalAmount));
         tvBillPerPerson.setText(CURRENCY_FORMATTER.format(totalAmount / peopleCount));
-
     }
 
     private void showWarning(String msg) {

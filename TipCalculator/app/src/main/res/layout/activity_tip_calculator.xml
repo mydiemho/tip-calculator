@@ -40,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/llPeopleCountButtons"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -89,7 +88,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="2"
                 android:max="100" />
-            />
 
             <TextView
                 android:id="@+id/tvTipPercentage"
@@ -112,6 +110,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:gravity="center"
+        android:weightSum="7"
         android:orientation="horizontal">
 
         <ImageView
@@ -123,87 +122,79 @@
             android:scaleType="fitXY"
             android:src="@drawable/ic_people" />
 
-        <Button
-            android:id="@+id/btnOne"
+        <RadioGroup
+            android:id="@+id/rgPeopleCount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="calculateTip"
-            android:tag="@string/tag_one"
-            android:text="@string/btn_label_one" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/llPeopleCountButtons"
+            android:layout_weight="6"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnTwo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="calculateTip"
-            android:tag="@string/tag_two"
-            android:text="@string/btn_label_two" />
+            <ToggleButton
+                android:id="@+id/btnOne"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="@string/tag_one"
+                android:textOn="@string/btn_label_one"
+                android:textOff="@string/btn_label_one"
+                android:checked="true"
+                android:onClick="onToggle" />
 
-        <Button
-            android:id="@+id/btnThree"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="calculateTip"
-            android:tag="@string/tag_three"
-            android:text="@string/btn_label_three" />
+            <ToggleButton
+                android:id="@+id/btnTwo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="@string/tag_two"
+                android:textOn="@string/btn_label_two"
+                android:textOff="@string/btn_label_two"
+                android:onClick="onToggle" />
 
-        <Button
-            android:id="@+id/btnFour"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="calculateTip"
-            android:tag="@string/tag_four"
-            android:text="@string/btn_label_four" />
+            <ToggleButton
+                android:id="@+id/btnThree"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="@string/tag_three"
+                android:textOn="@string/btn_label_three"
+                android:textOff="@string/btn_label_three"
+                android:onClick="onToggle" />
 
-        <Button
-            android:id="@+id/btnFive"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="calculateTip"
-            android:tag="@string/tag_five"
-            android:text="@string/btn_label_five" />
+            <ToggleButton
+                android:id="@+id/btnFour"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="@string/tag_four"
+                android:textOn="@string/btn_label_four"
+                android:textOff="@string/btn_label_four"
+                android:onClick="onToggle" />
 
-        <Button
-            android:id="@+id/btnSix"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="calculateTip"
-            android:tag="@string/tag_six"
-            android:text="@string/btn_label_six" />
+            <ToggleButton
+                android:id="@+id/btnFive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="@string/tag_five"
+                android:textOn="@string/btn_label_five"
+                android:textOff="@string/btn_label_five"
+                android:onClick="onToggle" />
+
+            <ToggleButton
+                android:id="@+id/btnSix"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="@string/tag_six"
+                android:textOn="@string/btn_label_six"
+                android:textOff="@string/btn_label_six"
+                android:onClick="onToggle" />
+        </RadioGroup>
 
     </LinearLayout>
-
-    <!--<LinearLayout-->
-    <!--android:id="@+id/llPeopleCount"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@+id/llTipPercentage"-->
-    <!--android:layout_centerInParent="true"-->
-    <!--android:layout_marginTop="15dp"-->
-    <!--android:orientation="horizontal">-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/ivPeople"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:adjustViewBounds="true"-->
-    <!--android:scaleType="fitXY"-->
-    <!--android:src="@drawable/ic_people" />-->
-
-    <!--<NumberPicker-->
-    <!--android:id="@+id/npPeopleCount"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_marginLeft="20dp" />-->
-    <!--</LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/llResult"
