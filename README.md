@@ -1,9 +1,7 @@
 # Tip-Calculator
 ==============
 
-A tip calculator utility app which allows a user to calculate the appropriate tip based on the total amount entered.
-
-This is an Android application for calculating tip. 
+This is a tip calculator utility app which allows a user to calculate the appropriate tip based on the total amount entered.
 
 Time spent: ~25 hours spent in total
 
