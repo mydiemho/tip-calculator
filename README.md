@@ -30,8 +30,8 @@ Completed user stories:
  * [x] Optional: User changes the total amount and updated tip is reflected automatically
  * [x] Optional: User can select how many ways to split the tip
  * [x] Optional: Improve the user interface and experience by using images and/or colors
- ** Use [Crouton](https://github.com/keyboardsurfer/Crouton) instead of Toast for user error warning
- ** Show keyboard when activity starts and replace "Next" key with "Done"
+ * Use [Crouton](https://github.com/keyboardsurfer/Crouton) instead of Toast for user error warning
+ * Show keyboard when activity starts and replace "Next" key with "Done"
 
 Notes:
 
