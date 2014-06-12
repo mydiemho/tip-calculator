@@ -14,7 +14,8 @@
         android:hint="@string/label_input_hint"
         android:gravity="right"
         android:layout_marginTop="30dp"
-        android:numeric="decimal" />
+        android:numeric="decimal"
+        android:imeOptions="actionDone"/>
 
     <LinearLayout
         android:id="@+id/llButtons"
