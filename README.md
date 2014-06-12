@@ -5,8 +5,6 @@ A tip calculator utility app which allows a user to calculate the appropriate ti
 
 This is an Android application for calculating tip. 
 
- [Crouton](https://github.com/keyboardsurfer/Crouton). 
-
 Time spent: ~25 hours spent in total
 
 User is displayed the tip of specified percentage for specified entered amount
